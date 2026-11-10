@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viva Bem – Saúde e Bem-Estar</title>
+<meta name="description" content="Viva Bem: dicas confiáveis de alimentação, exercício, sono e saúde mental, com ferramentas para acompanhar seus hábitos.">
+<style>
+:root{
+  --bg:#F7FAF8; --surface:#FFFFFF; --text:#1B2B26; --muted:#43564F;
+  --primary:#1F6B52; --on-primary:#FFFFFF; --secondary:#1D5F8A;
+  --accent:#F2A65A; --on-accent:#1B2B26; --border:#6E8279; --soft:#E3F0EA;
+  --focus:#0B3FAE; --shadow:0 2px 10px rgba(27,43,38,.12);
+}
+:root[data-theme="dark"]{
+  --bg:#0F1A17; --surface:#172622; --text:#E8F2EE; --muted:#A9BDB5;
+  --primary:#5FCBA4; --on-primary:#08231A; --secondary:#7CC0EA;
+  --accent:#F2A65A; --on-accent:#1B2B26; --border:#6F8A80; --soft:#1F332D;
+  --focus:#FFD166; --shadow:0 2px 10px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;font-size:1.0625rem;line-height:1.65;background:var(--bg);color:var(--text)}
+h1,h2,h3{line-height:1.25;margin:0 0 .5em}
+h1{font-size:clamp(2rem,5vw,3rem)} h2{font-size:1.75rem} h3{font-size:1.2rem}
+p{margin:0 0 1em} a{color:var(--secondary)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:0;background:var(--primary);color:var(--on-primary);padding:.6rem 1rem;z-index:100}
+.skip:focus{left:0}
+.wrap{max-width:1100px;margin:0 auto;padding:0 1.25rem}
+section{padding:3.5rem 0}
+.alt{background:var(--soft)}
+.lead{color:var(--muted);max-width:65ch}
+
+/* Cabeçalho */
+header.top{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--border)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:68px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.5rem;font-weight:700;font-size:1.3rem;color:var(--primary);text-decoration:none}
+nav ul{display:flex;gap:.25rem;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+nav a{display:block;padding:.5rem .8rem;border-radius:8px;color:var(--text);text-decoration:none;font-weight:600}
+nav a:hover{background:var(--soft)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:.6rem 1.2rem;border-radius:999px;border:2px solid var(--primary);background:var(--primary);color:var(--on-primary);font:inherit;font-weight:700;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;color:var(--primary)}
+.btn.small{min-height:44px;padding:.4rem .9rem}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:2rem;align-items:center}
+.hero .tag{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:700;padding:.25rem .8rem;border-radius:999px;font-size:.9rem;margin-bottom:1rem}
+.hero svg{width:100%;height:auto;border-radius:20px}
+.cta{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.25rem}
+
+/* Cartões */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.25rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.4rem;box-shadow:var(--shadow);transition:transform .2s}
+.card:hover{transform:translateY(-4px)}
+.card .ico{width:52px;height:52px;border-radius:14px;background:var(--soft);display:grid;place-items:center;margin-bottom:.8rem}
+.card .ico svg{width:30px;height:30px;stroke:var(--primary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Explicativos (details) */
+details.card{padding:0}
+details.card summary{cursor:pointer;padding:1.1rem 1.4rem;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:1rem;border-radius:16px;min-height:44px}
+details.card summary::after{content:"+";font-size:1.5rem;line-height:1;color:var(--primary)}
+details.card[open] summary::after{content:"–"}
+details.card .body{padding:0 1.4rem 1.2rem;color:var(--muted)}
+
+/* Abas + pesquisa */
+.search{display:flex;gap:.75rem;flex-wrap:wrap;align-items:end;margin-bottom:1.25rem}
+.field{display:flex;flex-direction:column;gap:.3rem;flex:1 1 260px}
+label{font-weight:700}
+input,textarea,select{font:inherit;padding:.7rem .9rem;border-radius:10px;border:2px solid var(--border);background:var(--surface);color:var(--text);min-height:44px;width:100%}
+[role=tablist]{display:flex;gap:.4rem;flex-wrap:wrap;border-bottom:2px solid var(--border);margin-bottom:1rem}
+[role=tab]{font:inherit;font-weight:700;padding:.7rem 1.1rem;min-height:44px;border:2px solid transparent;border-bottom:0;border-radius:10px 10px 0 0;background:transparent;color:var(--text);cursor:pointer}
+[role=tab][aria-selected=true]{background:var(--primary);color:var(--on-primary)}
+[role=tabpanel]{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.2rem}
+.items{list-style:none;margin:0;padding:0;display:grid;gap:.75rem}
+.items li{padding:.8rem 1rem;border-left:5px solid var(--primary);background:var(--soft);border-radius:8px}
+.items li strong{display:block}
+.items li[hidden]{display:none}
+.none{color:var(--muted);font-style:italic}
+
+/* Carrossel */
+.carousel{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+.slides{display:flex;transition:transform .5s ease}
+.slide{min-width:100%;display:grid;grid-template-columns:1fr 1fr;align-items:center}
+.slide svg{width:100%;height:100%;display:block}
+.slide .txt{padding:2rem}
+.ctrl{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.8rem;border-top:1px solid var(--border);flex-wrap:wrap}
+.dot{width:44px;height:44px;border-radius:50%;border:0;background:transparent;cursor:pointer;display:grid;place-items:center}
+.dot::before{content:"";width:14px;height:14px;border-radius:50%;border:2px solid var(--primary);background:transparent}
+.dot[aria-current=true]::before{background:var(--primary)}
+@media (prefers-reduced-motion:reduce){.slides,.card{transition:none}html{scroll-behavior:auto}}
+
+/* Ferramentas */
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem}
+.glasses{display:flex;gap:.4rem;flex-wrap:wrap;margin:.8rem 0}
+.glass{width:44px;height:52px;border:2px solid var(--secondary);border-radius:6px 6px 14px 14px;background:transparent;cursor:pointer;color:var(--secondary);font-weight:700}
+.glass[aria-pressed=true]{background:var(--secondary);color:var(--bg)}
+.result{margin-top:1rem;padding:.9rem;border-radius:10px;background:var(--soft);font-weight:600}
+
+/* Formulário */
+form{display:grid;gap:1rem;max-width:640px}
+.err{color:var(--text);font-weight:600;min-height:1.2em;font-size:.95rem}
+.err:not(:empty)::before{content:"⚠ ";}
+input[aria-invalid=true],textarea[aria-invalid=true]{border-color:#C0392B;border-width:3px}
+.ok{padding:1rem;border-radius:10px;background:var(--soft);border:2px solid var(--primary);font-weight:700}
+
+footer{background:var(--surface);border-top:1px solid var(--border);padding:2.5rem 0}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+footer ul{list-style:none;margin:0;padding:0}
+footer li{margin-bottom:.4rem}
+.small{font-size:.9rem;color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+@media (max-width:760px){.hero,.slide{grid-template-columns:1fr}.slide svg{max-height:220px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#principal">Pular para o conteúdo principal</a>
+
+<header class="top">
+ <div class="wrap bar">
+  <a class="brand" href="#inicio" aria-label="Viva Bem, página inicial">
+   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+   Viva Bem
+  </a>
+  <nav aria-label="Navegação principal">
+   <ul>
+    <li><a href="#habitos">Hábitos</a></li>
+    <li><a href="#pesquisa">Pesquisar</a></li>
+    <li><a href="#destaques">Destaques</a></li>
+    <li><a href="#ferramentas">Ferramentas</a></li>
+    <li><a href="#contato">Contato</a></li>
+   </ul>
+  </nav>
+  <button class="btn ghost small" id="theme" type="button" aria-pressed="false">
+   <span aria-hidden="true" id="themeIcon">🌙</span> <span id="themeLabel">Modo escuro</span>
+  </button>
+ </div>
+</header>
+
+<main id="principal">
+
+<section id="inicio">
+ <div class="wrap hero">
+  <div>
+   <span class="tag">Cuide de você, um hábito por vez</span>
+   <h1>Saúde e bem-estar para o seu dia a dia</h1>
+   <p class="lead">O Viva Bem reúne informação simples e confiável sobre alimentação, movimento, sono e saúde mental, além de ferramentas para você acompanhar seus próprios hábitos.</p>
+   <div class="cta">
+    <a class="btn" href="#ferramentas">Começar meu acompanhamento</a>
+    <a class="btn ghost" href="#pesquisa">Explorar dicas</a>
+   </div>
+  </div>
+  <svg viewBox="0 0 400 320" role="img" aria-label="Ilustração de uma pessoa meditando em um campo verde sob o sol">
+   <rect width="400" height="320" fill="#E3F0EA"/>
+   <circle cx="310" cy="80" r="42" fill="#F2A65A"/>
+   <path d="M0 240 Q100 190 200 235 T400 220 V320 H0Z" fill="#5FCBA4"/>
+   <path d="M0 270 Q120 235 230 268 T400 255 V320 H0Z" fill="#1F6B52"/>
+   <circle cx="200" cy="140" r="26" fill="#C98B5E"/>
+   <path d="M150 250 Q200 160 250 250Z" fill="#1D5F8A"/>
+   <path d="M150 250 Q130 215 160 205 M250 250 Q270 215 240 205" stroke="#C98B5E" stroke-width="12" fill="none" stroke-linecap="round"/>
+   <ellipse cx="200" cy="254" rx="70" ry="9" fill="#1B2B26"/>
+  </svg>
+ </div>
+</section>
+
+<section id="habitos" class="alt">
+ <div class="wrap">
+  <h2>Os quatro pilares do bem-estar</h2>
+  <p class="lead">Pequenas mudanças consistentes têm mais efeito do que grandes mudanças que não duram.</p>
+  <div class="grid">
+   <article class="card">
+    <div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c3 2 5 5 5 8a5 5 0 0 1-10 0c0-3 2-6 5-8z"/><path d="M12 21v-6"/></svg></div>
+    <h3>Alimentação</h3><p>Priorize alimentos in natura, variedade de cores no prato e refeições com calma.</p>
+    <a href="#pesquisa" data-tab="nutricao">Ver dicas</a>
+   </article>
+   <article class="card">
+    <div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="M4 22l4-8 4 2 3-6-4-3-4 3M12 16l3 6M15 10l5 2"/></svg></div>
+    <h3>Movimento</h3><p>Ao menos 150 minutos de atividade moderada por semana, segundo a OMS.</p>
+    <a href="#pesquisa" data-tab="exercicio">Ver dicas</a>
+   </article>
+   <article class="card">
+    <div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg></div>
+    <h3>Sono</h3><p>Adultos precisam, em geral, de 7 a 9 horas de sono de qualidade por noite.</p>
+    <a href="#pesquisa" data-tab="sono">Ver dicas</a>
+   </article>
+   <article class="card">
+    <div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg></div>
+    <h3>Mente</h3><p>Pausas, respiração e conversa com pessoas de confiança protegem a saúde mental.</p>
+    <a href="#pesquisa" data-tab="mente">Ver dicas</a>
+   </article>
+  </div>
+ </div>
+</section>
+
+<section id="pesquisa">
+ <div class="wrap">
+  <h2>Pesquise por tema</h2>
+  <div class="search" role="search">
+   <div class="field">
+    <label for="q">Buscar uma dica (ex.: água, sono, caminhada)</label>
+    <input id="q" type="search" autocomplete="off">
+   </div>
+  </div>
+  <p id="count" class="small" role="status" aria-live="polite"></p>
+  <div role="tablist" aria-label="Categorias de dicas" id="tabs">
+   <button role="tab" id="t-nutricao" aria-controls="p-nutricao" aria-selected="true">Nutrição</button>
+   <button role="tab" id="t-exercicio" aria-controls="p-exercicio" aria-selected="false" tabindex="-1">Exercício</button>
+   <button role="tab" id="t-sono" aria-controls="p-sono" aria-selected="false" tabindex="-1">Sono</button>
+   <button role="tab" id="t-mente" aria-controls="p-mente" aria-selected="false" tabindex="-1">Mente</button>
+  </div>
+  <div role="tabpanel" id="p-nutricao" aria-labelledby="t-nutricao" tabindex="0">
+   <ul class="items">
+    <li><strong>Beba água ao longo do dia</strong>Uma meta comum é cerca de 2 litros, variando com peso, clima e atividade.</li>
+    <li><strong>Monte um prato colorido</strong>Legumes, verduras, grãos integrais e proteínas magras em cada refeição.</li>
+    <li><strong>Reduza ultraprocessados</strong>O Guia Alimentar para a População Brasileira recomenda evitá-los.</li>
+    <li><strong>Coma devagar</strong>Mastigar com atenção ajuda a perceber a saciedade.</li>
+   </ul>
+  </div>
+  <div role="tabpanel" id="p-exercicio" aria-labelledby="t-exercicio" tabindex="0" hidden>
+   <ul class="items">
+    <li><strong>Caminhada diária</strong>30 minutos de caminhada rápida já contam para a meta semanal.</li>
+    <li><strong>Fortalecimento muscular</strong>Duas vezes por semana, trabalhando os grandes grupos musculares.</li>
+    <li><strong>Alongamento</strong>Alguns minutos ao acordar e após o treino melhoram a mobilidade.</li>
+    <li><strong>Interrompa o sedentarismo</strong>A cada hora sentado, levante e caminhe por dois minutos.</li>
+   </ul>
+  </div>
+  <div role="tabpanel" id="p-sono" aria-labelledby="t-sono" tabindex="0" hidden>
+   <ul class="items">
+    <li><strong>Horário regular</strong>Dormir e acordar em horários parecidos regula o relógio biológico.</li>
+    <li><strong>Menos telas à noite</strong>Evite telas de 30 a 60 minutos antes de deitar.</li>
+    <li><strong>Quarto escuro e fresco</strong>Ambiente silencioso e confortável favorece o sono profundo.</li>
+    <li><strong>Cafeína com moderação</strong>Evite café e energéticos no fim da tarde e à noite.</li>
+   </ul>
+  </div>
+  <div role="tabpanel" id="p-mente" aria-labelledby="t-mente" tabindex="0" hidden>
+   <ul class="items">
+    <li><strong>Respiração 4-6</strong>Inspire contando até 4 e expire contando até 6, por 2 minutos.</li>
+    <li><strong>Pausas conscientes</strong>Pequenos intervalos reduzem a sensação de sobrecarga.</li>
+    <li><strong>Converse</strong>Falar sobre o que sente com alguém de confiança alivia a tensão.</li>
+    <li><strong>Procure ajuda profissional</strong>Em sofrimento intenso, procure um psicólogo, o CAPS ou ligue para o CVV (188).</li>
+   </ul>
+  </div>
+ </div>
+</section>
+
+<section id="destaques" class="alt">
+ <div class="wrap">
+  <h2>Destaques da semana</h2>
+  <div class="carousel" id="carousel" role="region" aria-roledescription="carrossel" aria-label="Destaques da semana">
+   <div class="slides" id="slides" aria-live="off">
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="1 de 3">
+     <svg viewBox="0 0 400 260" role="img" aria-label="Tigela de frutas coloridas sobre uma mesa">
+      <rect width="400" height="260" fill="#F2A65A"/><rect y="190" width="400" height="70" fill="#1F6B52"/>
+      <path d="M110 150 H290 Q280 215 200 215 T110 150Z" fill="#FFFFFF"/>
+      <circle cx="160" cy="130" r="30" fill="#C0392B"/><circle cx="215" cy="122" r="32" fill="#F7DC6F"/><circle cx="255" cy="138" r="26" fill="#5FCBA4"/>
+      <path d="M160 100 q8 -18 20 -14" stroke="#1F6B52" stroke-width="6" fill="none"/>
+     </svg>
+     <div class="txt"><h3>Coma as cores do arco-íris</h3><p>Frutas e vegetais de cores diferentes fornecem vitaminas e antioxidantes variados. Tente incluir três cores no almoço de hoje.</p></div>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="2 de 3">
+     <svg viewBox="0 0 400 260" role="img" aria-label="Pessoa caminhando em uma trilha entre árvores">
+      <rect width="400" height="260" fill="#7CC0EA"/><circle cx="330" cy="50" r="28" fill="#F7DC6F"/>
+      <path d="M0 200 Q150 150 400 190 V260 H0Z" fill="#1F6B52"/>
+      <path d="M140 260 Q200 200 250 150 L270 150 Q230 210 200 260Z" fill="#F7DC6F"/>
+      <circle cx="80" cy="130" r="38" fill="#0F5A3E"/><rect x="76" y="160" width="8" height="45" fill="#6B4226"/>
+      <circle cx="320" cy="120" r="44" fill="#0F5A3E"/><rect x="316" y="155" width="8" height="50" fill="#6B4226"/>
+      <circle cx="215" cy="145" r="9" fill="#C98B5E"/><path d="M215 155 v28 M215 165 l-12 12 M215 165 l12 8 M215 183 l-10 20 M215 183 l12 18" stroke="#1B2B26" stroke-width="5" stroke-linecap="round" fill="none"/>
+     </svg>
+     <div class="txt"><h3>30 minutos que mudam o dia</h3><p>Uma caminhada diária melhora o humor, o sono e a saúde do coração. Comece com 10 minutos e aumente aos poucos.</p></div>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="3 de 3">
+     <svg viewBox="0 0 400 260" role="img" aria-label="Lua e estrelas sobre uma cama confortável">
+      <rect width="400" height="260" fill="#1D3557"/>
+      <path d="M300 40 a40 40 0 1 0 40 55 a32 32 0 1 1 -40 -55z" fill="#F7DC6F"/>
+      <circle cx="80" cy="60" r="3" fill="#fff"/><circle cx="150" cy="35" r="2.5" fill="#fff"/><circle cx="220" cy="80" r="3" fill="#fff"/><circle cx="50" cy="120" r="2" fill="#fff"/>
+      <rect x="60" y="170" width="280" height="55" rx="10" fill="#5FCBA4"/><rect x="60" y="150" width="90" height="35" rx="14" fill="#FFFFFF"/><rect x="50" y="215" width="12" height="30" fill="#6B4226"/><rect x="338" y="215" width="12" height="30" fill="#6B4226"/>
+     </svg>
+     <div class="txt"><h3>Prepare a noite desde a tarde</h3><p>Luz baixa, menos telas e horários regulares ajudam o corpo a entender que é hora de descansar.</p></div>
+    </div>
+   </div>
+   <div class="ctrl">
+    <button class="btn ghost small" id="prev" type="button" aria-label="Slide anterior">‹ Anterior</button>
+    <span id="dots"></span>
+    <button class="btn ghost small" id="next" type="button" aria-label="Próximo slide">Próximo ›</button>
+    <button class="btn small" id="play" type="button" aria-pressed="false">Iniciar rotação automática</button>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="explica">
+ <div class="wrap">
+  <h2>Você sabia? Cartões explicativos</h2>
+  <div class="grid">
+   <details class="card"><summary>O que é IMC?</summary><div class="body">O Índice de Massa Corporal relaciona peso e altura (kg/m²). É uma triagem inicial e não considera massa muscular nem distribuição de gordura. Um profissional de saúde interpreta o resultado com você.</div></details>
+   <details class="card"><summary>Por que dormir bem importa?</summary><div class="body">Durante o sono o corpo consolida memórias, regula hormônios e recupera tecidos. Dormir pouco de forma recorrente se associa a pior humor, menor concentração e maior risco de doenças.</div></details>
+   <details class="card"><summary>Preciso de suplementos?</summary><div class="body">Na maioria dos casos, uma alimentação variada atende às necessidades. Suplementos devem ser indicados por médico ou nutricionista após avaliação.</div></details>
+   <details class="card"><summary>Estresse é sempre ruim?</summary><div class="body">Em doses curtas ele nos prepara para desafios. O problema é o estresse crônico, que pede estratégias de manejo e, se persistir, ajuda profissional.</div></details>
+  </div>
+ </div>
+</section>
+
+<section id="ferramentas" class="alt">
+ <div class="wrap">
+  <h2>Ferramentas para acompanhar seus hábitos</h2>
+  <div class="tools">
+   <div class="card">
+    <h3>Contador de água</h3>
+    <p class="small">Cada copo equivale a 250 ml. Meta: 8 copos (2 L).</p>
+    <div class="glasses" id="glasses"></div>
+    <p class="result" id="waterOut" role="status" aria-live="polite">0 de 8 copos (0 ml)</p>
+    <button class="btn ghost small" id="waterReset" type="button">Zerar</button>
+   </div>
+   <div class="card">
+    <h3>Calculadora de IMC</h3>
+    <div class="field"><label for="peso">Peso (kg)</label><input id="peso" type="number" min="20" max="300" step="0.1" inputmode="decimal"></div>
+    <div class="field" style="margin-top:.7rem"><label for="alt">Altura (cm)</label><input id="alt" type="number" min="100" max="250" inputmode="numeric"></div>
+    <button class="btn small" id="imcBtn" type="button" style="margin-top:.9rem">Calcular</button>
+    <p class="result" id="imcOut" role="status" aria-live="polite">Preencha os campos e calcule.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="contato">
+ <div class="wrap">
+  <h2>Fale com a gente</h2>
+  <p class="lead">Envie uma dúvida, sugestão de tema ou elogio. Campos com * são obrigatórios.</p>
+  <form id="form" novalidate>
+   <div class="field"><label for="nome">Nome *</label><input id="nome" name="nome" autocomplete="name" aria-describedby="e-nome" required><span class="err" id="e-nome"></span></div>
+   <div class="field"><label for="email">E-mail *</label><input id="email" name="email" type="email" autocomplete="email" aria-describedby="e-email" required><span class="err" id="e-email"></span></div>
+   <div class="field"><label for="assunto">Assunto</label>
+    <select id="assunto" name="assunto"><option>Dúvida</option><option>Sugestão de tema</option><option>Elogio</option><option>Outro</option></select></div>
+   <div class="field"><label for="msg">Mensagem *</label><textarea id="msg" name="msg" rows="5" aria-describedby="e-msg" required></textarea><span class="err" id="e-msg"></span></div>
+   <div><button class="btn" type="submit">Enviar mensagem</button></div>
+   <div id="formOut" role="status" aria-live="polite"></div>
+  </form>
+ </div>
+</section>
+
+</main>
+
+<footer>
+ <div class="wrap">
+  <div class="cols">
+   <div><strong>Viva Bem</strong><p class="small">Projeto acadêmico de site sobre saúde e bem-estar. O conteúdo é informativo e não substitui a consulta com profissionais de saúde.</p></div>
+   <div><strong>Navegue</strong><ul><li><a href="#habitos">Hábitos</a></li><li><a href="#pesquisa">Pesquisar</a></li><li><a href="#ferramentas">Ferramentas</a></li><li><a href="#contato">Contato</a></li></ul></div>
+   <div><strong>Precisa de ajuda?</strong><ul><li>CVV: <a href="tel:188">188</a> (24 h, gratuito)</li><li>SAMU: <a href="tel:192">192</a></li></ul></div>
+  </div>
+  <p class="small" style="margin-top:1.5rem">© 2026 Viva Bem. Desenvolvido com HTML, CSS e JavaScript, seguindo WCAG 2.1 nível AA.</p>
+ </div>
+</footer>
+
+<script>
+/* Tema claro/escuro */
+const root=document.documentElement, tbtn=document.getElementById('theme');
+function setTheme(t){root.dataset.theme=t;tbtn.setAttribute('aria-pressed',t==='dark');
+ document.getElementById('themeIcon').textContent=t==='dark'?'☀️':'🌙';
+ document.getElementById('themeLabel').textContent=t==='dark'?'Modo claro':'Modo escuro';
+ try{localStorage.setItem('vb-theme',t)}catch(e){}}
+let saved=null;try{saved=localStorage.getItem('vb-theme')}catch(e){}
+setTheme(saved||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));
+tbtn.onclick=()=>setTheme(root.dataset.theme==='dark'?'light':'dark');
+
+/* Abas + pesquisa */
+const tabs=[...document.querySelectorAll('[role=tab]')], panels=[...document.querySelectorAll('[role=tabpanel]')];
+function selectTab(tab,focus){tabs.forEach(t=>{const on=t===tab;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;});
+ panels.forEach(p=>p.hidden=p.id!==tab.getAttribute('aria-controls'));if(focus)tab.focus();}
+tabs.forEach((t,i)=>{t.onclick=()=>selectTab(t);
+ t.onkeydown=e=>{let n=null;
+  if(e.key==='ArrowRight')n=tabs[(i+1)%tabs.length];
+  if(e.key==='ArrowLeft')n=tabs[(i-1+tabs.length)%tabs.length];
+  if(e.key==='Home')n=tabs[0];if(e.key==='End')n=tabs[tabs.length-1];
+  if(n){e.preventDefault();selectTab(n,true);}};});
+document.querySelectorAll('[data-tab]').forEach(a=>a.addEventListener('click',()=>selectTab(document.getElementById('t-'+a.dataset.tab))));
+const q=document.getElementById('q'), count=document.getElementById('count');
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+q.addEventListener('input',()=>{const v=norm(q.value.trim());let total=0,first=null;
+ panels.forEach(p=>{let n=0;p.querySelectorAll('li').forEach(li=>{const m=!v||norm(li.textContent).includes(v);li.hidden=!m;if(m)n++;});
+  let msg=p.querySelector('.none');if(!n&&!msg){msg=document.createElement('p');msg.className='none';msg.textContent='Nada encontrado nesta categoria.';p.appendChild(msg);}
+  if(n&&msg)msg.remove();total+=n;if(n&&!first)first=p;});
+ if(v&&first&&!document.getElementById(first.getAttribute('aria-labelledby')).getAttribute('aria-selected').includes('true')){
+  const cur=panels.find(p=>!p.hidden);if(cur&&!cur.querySelector('li:not([hidden])'))selectTab(document.getElementById(first.getAttribute('aria-labelledby')));}
+ count.textContent=v?total+' resultado(s) encontrado(s) em todas as categorias.':'';});
+
+/* Carrossel */
+const slides=document.getElementById('slides'), n=slides.children.length, dots=document.getElementById('dots');
+let i=0,timer=null;
+for(let k=0;k<n;k++){const d=document.createElement('button');d.className='dot';d.type='button';d.setAttribute('aria-label','Ir para o slide '+(k+1));d.onclick=()=>go(k);dots.appendChild(d);}
+function go(k){i=(k+n)%n;slides.style.transform='translateX(-'+i*100+'%)';
+ [...dots.children].forEach((d,j)=>d.setAttribute('aria-current',j===i));
+ [...slides.children].forEach((s,j)=>s.setAttribute('aria-hidden',j!==i));}
+document.getElementById('prev').onclick=()=>go(i-1);
+document.getElementById('next').onclick=()=>go(i+1);
+const play=document.getElementById('play');
+play.onclick=()=>{const on=play.getAttribute('aria-pressed')==='true';
+ if(on){clearInterval(timer);play.setAttribute('aria-pressed',false);play.textContent='Iniciar rotação automática';}
+ else{timer=setInterval(()=>go(i+1),6000);play.setAttribute('aria-pressed',true);play.textContent='Pausar rotação automática';}};
+document.getElementById('carousel').addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(i+1);if(e.key==='ArrowLeft')go(i-1);});
+go(0);
+
+/* Contador de água */
+const gl=document.getElementById('glasses'), wo=document.getElementById('waterOut');let water=0;
+try{water=+localStorage.getItem('vb-water')||0}catch(e){}
+for(let k=1;k<=8;k++){const b=document.createElement('button');b.className='glass';b.type='button';b.textContent=k;b.setAttribute('aria-label','Copo '+k);b.onclick=()=>{water=(water===k)?k-1:k;drawWater();};gl.appendChild(b);}
+function drawWater(){[...gl.children].forEach((b,j)=>b.setAttribute('aria-pressed',j<water));
+ wo.textContent=water+' de 8 copos ('+water*250+' ml)'+(water>=8?' – meta atingida! 🎉':'');
+ try{localStorage.setItem('vb-water',water)}catch(e){}}
+document.getElementById('waterReset').onclick=()=>{water=0;drawWater();};drawWater();
+
+/* IMC */
+document.getElementById('imcBtn').onclick=()=>{const p=parseFloat(document.getElementById('peso').value),a=parseFloat(document.getElementById('alt').value)/100,o=document.getElementById('imcOut');
+ if(!p||!a||p<20||a<1){o.textContent='Informe peso (kg) e altura (cm) válidos.';return;}
+ const v=p/(a*a);const c=v<18.5?'abaixo do peso':v<25?'peso adequado':v<30?'sobrepeso':'obesidade';
+ o.textContent='IMC '+v.toFixed(1).replace('.',',')+' – faixa: '+c+'. Resultado orientativo; consulte um profissional.';};
+
+/* Formulário */
+const f=document.getElementById('form');
+function bad(id,msg){const el=document.getElementById(id);el.setAttribute('aria-invalid','true');document.getElementById('e-'+id).textContent=msg;return el;}
+function good(id){document.getElementById(id).removeAttribute('aria-invalid');document.getElementById('e-'+id).textContent='';}
+f.addEventListener('submit',e=>{e.preventDefault();let first=null;
+ ['nome','email','msg'].forEach(good);
+ const nome=f.nome.value.trim(),email=f.email.value.trim(),msg=f.msg.value.trim();
+ if(!nome){first=first||bad('nome','Informe seu nome.');}
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){first=first||bad('email','Informe um e-mail válido, como nome@exemplo.com.');}
+ if(msg.length<10){first=first||bad('msg','Escreva uma mensagem com pelo menos 10 caracteres.');}
+ const out=document.getElementById('formOut');
+ if(first){first.focus();out.textContent='';return;}
+ out.innerHTML='<p class="ok">Obrigado, '+nome.replace(/[<>&]/g,'')+'! Recebemos sua mensagem (simulação, nenhum dado foi enviado).</p>';f.reset();});
+</script>
+</body>
+</html>
